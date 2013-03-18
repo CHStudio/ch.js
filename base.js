@@ -8,7 +8,7 @@
 
 /**
  * @author Stéphane HULARD <s.hulard@chstudio.fr>
- * @copy CH Studio <www.chstudio.fr> 2012
+ * @copy CH Studio <www.chstudio.fr> 2013
  * @package default
  */
 (function (window, document, navigator) {
@@ -93,7 +93,8 @@
 		}
 
 		//Retrieve loaded script element
-		var aScripts = ch.d.getElementsByTagName('script'),
+		var 
+			aScripts = ch.d.getElementsByTagName('script'),
 			i = aScripts.length - 1,
 			sSrc,
 			iQmark,
@@ -120,7 +121,8 @@
 	 */
 	var depsCheckLoading_ = function () {
 		//Backup current queue length
-		var iStartLength = depsQueue.length,
+		var 
+			iStartLength = depsQueue.length,
 			bLoaded,
 			i = 0,
 			j = 0;
@@ -176,7 +178,8 @@
 
 		//If there is a namespace array, load all items
 		if (mObject instanceof Array) {
-			var iNb = mObject.length,
+			var 
+				iNb = mObject.length,
 				i = 0,
 				fnToLoop = function () {
 					iNb--;
@@ -231,8 +234,8 @@
 	 * @param {Boolean} bRemoveNode True if loaded node need to be removed after loading
 	 */
 	ch.loadScript = function (sURL, fnClosure) {
-		var	fnError = function () {
-			},
+		var	
+			fnError = function () {},
 			fnLoaded = function (oEvent) {
 				var oNode = oEvent.currentTarget || oEvent.srcElement;
 
@@ -284,7 +287,8 @@
 	 * @param {String} sObject
 	 */
 	ch.define = function (sObject) {
-		var oCurrent = ch.w,
+		var 
+			oCurrent = ch.w,
 			aParts = sObject.split('.'),
 			iPart = 0;
 
@@ -303,7 +307,8 @@
 	 * @return {Boolean} Whether namespace is required
 	 */
 	ch.isAlive_ = function (sObject) {
-		var oCurrent = ch.w,
+		var
+			oCurrent = ch.w,
 			aParts = sObject.split('.'),
 			iPart = 0,
 			bReturn = true;
@@ -485,7 +490,8 @@
 	 * @return Function
 	 */
 	Function.prototype.swiss = function (parent) {
-		var i = 1,
+		var 
+			i = 1,
 			name;
 		for (i; i < arguments.length; i += 1) {
 			name = arguments[i];
@@ -528,7 +534,8 @@
 				throw new TypeError();
 			}
 
-			var t = Object(this),
+			var 
+				t = Object(this),
 				len = t.length >>> 0,
 				n = 0,
 				k;

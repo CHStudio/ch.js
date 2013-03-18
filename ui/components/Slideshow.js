@@ -12,10 +12,13 @@
  * - Use events to notify change.start and change.end which are binded with this
  *
  * @author Stéphane HULARD <s.hulard@chstudio.fr>
- * @copy CH Studio 2013
+ * @copy CH Studio <www.chstudio.fr> 2013
  * @package ui
+ * @subpackage components
  */
-(function(ch) {
+(function(ch, window) {
+	'use strict';
+
 	//Slideshow Manager
 	ch.define('ch.ui.components');
 
@@ -31,9 +34,9 @@
 			//Private vars
 			var 
 				_iCurrent = 0,					//Current slide id in collection
-				_iPrevious = undefined, //Element before the current is the last at beginning
+				_iPrevious,							//Element before the current is the last at beginning
 				_iTotal = iNbSlides,		//Total number of slides
-				_iInterval = undefined,	//Interval id if auto mode is enabled
+				_iInterval,							//Interval id if auto mode is enabled
 				_isAnimating = false,		//True if slider is animating
 				_iAnimDuration = 750,		//Animation duration in msec
 				_iIdleDuration = 5000;	//Idle duration between animation in auto mode
@@ -75,7 +78,7 @@
 
 				//current, next, before, direction
 				this.say('change.start', [iCurrent, _iCurrent, iBefore, iDirection, _iPrevious]);
-				setTimeout(function() {
+				window.setTimeout(function() {
 					_isAnimating = false;
 					this.say('change.end', [iCurrent, _iCurrent, iBefore, iDirection, _iPrevious]);
 					_iPrevious = iCurrent;
@@ -102,7 +105,7 @@
 			 * @return ch.ui.components.Slideshow
 			 */
 			this.enableAuto = function() {
-				_iInterval = setInterval(fnShow.bind(this), _iAnimDuration+_iIdleDuration);
+				_iInterval = window.setInterval(fnShow.bind(this), _iAnimDuration+_iIdleDuration);
 				this.say('action.enableAuto');
 				return this;
 			};
@@ -112,7 +115,7 @@
 			 * @return ch.ui.components.Slideshow
 			 */
 			this.disableAuto = function() {
-				_iInterval = clearInterval(_iInterval);
+				_iInterval = window.clearInterval(_iInterval);
 				this.say('action.disableAuto');
 				return this;
 			};
@@ -196,4 +199,4 @@
 		//Allow the use of events on Slideshow UI object
 		ch.ui.components.Slideshow.inherits(ch.utils.Event);
 	});
-}.call(this, ch));
+}.call(this, ch, window));

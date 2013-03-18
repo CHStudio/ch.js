@@ -7,13 +7,19 @@
 /**
  * Event: Add event capabilities to inherited objects
  * @author Stéphane HULARD <s.hulard@chstudio.fr>
- * @copy CH Studio <www.chstudio.fr> 2012
+ * @copy CH Studio <www.chstudio.fr> 2013
  * @package utils
  */
 (function (ch) {
+	'use strict';
+
 	//Define object context
 	ch.define('ch.utils');
 	
+	/**
+	 * ch.utils.Event constructor
+	 * @return ch.utils.Event
+	 */
 	ch.utils.Event = function () {};
 	
 	/**
