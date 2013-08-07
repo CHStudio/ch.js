@@ -182,12 +182,14 @@
 				i = 0,
 				fnToLoop = function () {
 					iNb--;
-					if( iNb === 0 ) 
+					if( iNb === 0 ) {
 						depsCheckLoading_();
+					}
 				};
 				
-			for( i = 0; i < iNb; i++ )
+			for( i = 0; i < iNb; i++ ) {
 				ch.require(mObject[i], fnToLoop);
+			}
 			return;
 		}
 
