@@ -14,13 +14,14 @@
  * @package map.google
  */
 (function (ch) {
-	'use stritc';
+	'use strict';
 
 	//Define object context
 	ch.define('ch.map.google');
 	
 	//Require dependencies
 	ch.require(['google.maps.Map', 'google.maps.LatLng', 'google.maps.MapTypeId'], function() {
+
 		/**
 		 * Map constructor
 		 * @return ch.map.google.Map

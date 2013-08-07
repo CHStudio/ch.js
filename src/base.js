@@ -14,7 +14,6 @@
 (function (window, document, navigator) {
 	'use strict';
 //------------------------------------------------------------------------------
-
 	//JavaScript native types tests
 	//-----------------------------
 
