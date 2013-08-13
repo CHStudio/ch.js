@@ -223,7 +223,9 @@
 					ch.removeListener(oNode, fnLoaded, 'load', 'onreadystatechange');
 					ch.removeListener(oNode, fnError, 'error');
 
-					oNode.parentNode.removeChild(oNode);
+					if( ch.isDefAndNotNull(oNode.parentNode) ) {
+						oNode.parentNode.removeChild(oNode);
+					}
 
 					if (fnClosure) {
 						fnClosure.call();
