@@ -300,8 +300,8 @@
 			}
 		}());
 
-		module_.parse: window.JSON.parse;
-		module_.stringify: window.JSON.stringify;
+		module_.parse = window.JSON.parse;
+		module_.stringify = window.JSON.stringify;
 
 		return module_;
 	});
