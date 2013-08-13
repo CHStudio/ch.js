@@ -8,7 +8,7 @@
 
 /**
  * @author Stéphane HULARD <s.hulard@chstudio.fr>
- * @copy CH Studio <www.chstudio.fr> 2013
+ * @copy CHStudio <www.chstudio.fr> 2013
  * @package default
  */
 (function (window, document, navigator) {
@@ -33,14 +33,6 @@
 
 	//Define current framework version
 	ch.VERSION = '0.1';
-
-	//Define native object that has been extended inside CH for dependency tests
-	ch.NATIVE = [
-		'Object', 
-		'Number', 
-		'Array', 
-		'String'
-	];
 
 //------------------------------------------------------------------------------
 
@@ -195,29 +187,20 @@
 		}
 
 		//If object has already been required just get it
-		if (ch.NATIVE.indexOf(mObject) < 0) {
-			if (ch.isAlive_(mObject)) {
-				depsCheckLoading_();
-			} else {
-				//Else load the given script
-				var aLevels = mObject.split('.');
-				if (aLevels[0] === 'ch') {
-					aLevels.shift();
-				}
-
-				ch.load(
-					findBasePath_() + aLevels.join('/') + '.js',
-					function () {
-						depsCheckLoading_();
-					}
-				);
-			}
-		} else if (ch.isAlive_(mObject + '.ch')) { //ch key is added to the object to tell that was already loaded
+		if (ch.isAlive_(mObject)) {
 			depsCheckLoading_();
-		}	else {
+		} else {
+			//Else load the given script
+			var aLevels = mObject.split('.');
+			if (aLevels[0] === 'ch') {
+				aLevels.shift();
+			}
+
 			ch.load(
-				findBasePath_() + 'native/' + mObject + '.js',
-				function() { depsCheckLoading_(); }
+				findBasePath_() + aLevels.join('/') + '.js',
+				function () {
+					depsCheckLoading_();
+				}
 			);
 		}
 	};
