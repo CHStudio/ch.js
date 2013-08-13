@@ -112,24 +112,26 @@
 		};
 
 	//------------------------------------------------------------------------------
-		var fnSearchString = function (data) {
-			for (var i=0;i<data.length;i++)	{
-				var dataString = data[i].string;
-				var dataProp = data[i].prop;
-				this.versionSearchString = data[i].versionSearch || data[i].identity;
-				if (dataString) {
-					if (dataString.indexOf(data[i].subString) != -1)
+		var 
+			sVersionSearchString,
+			fnSearchString = function (data) {
+				for (var i=0;i<data.length;i++)	{
+					var dataString = data[i].string;
+					var dataProp = data[i].prop;
+					sVersionSearchString = data[i].versionSearch || data[i].identity;
+					if (dataString) {
+						if (dataString.indexOf(data[i].subString) != -1)
+							return data[i].identity;
+					}
+					else if (dataProp)
 						return data[i].identity;
 				}
-				else if (dataProp)
-					return data[i].identity;
-			}
-		};
-		var fnSearchVersion = function (dataString) {
-			var index = dataString.indexOf(this.versionSearchString);
-			if (index == -1) return;
-			return parseFloat(dataString.substring(index+this.versionSearchString.length+1));
-		};
+			},
+			fnSearchVersion = function (dataString) {
+				var index = dataString.indexOf(sVersionSearchString);
+				if (index == -1) { return; }
+				return parseFloat(dataString.substring(index+sVersionSearchString.length+1));
+			};
 
 	//------------------------------------------------------------------------------
 		var 
