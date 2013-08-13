@@ -145,11 +145,7 @@
 			//If current item has been loaded, apply the callback
 			if (bLoaded) {
 				if (ch.typeOf(depsQueue[i][1]) === 'function') {
-					//@FIXME Add a timeout before launch code that request dependency, is that the best way?
-					window.setTimeout( depsQueue[i][1], 100);
-					//Check dependency loading when object is loaded
-					//Needed here because of setTimeout
-					window.setTimeout( depsCheckLoading_, 100);
+					depsQueue[i][1].call();
 				}
 				//Destroy current item from the queue to disable double call
 				depsQueue.splice(i, 1);
@@ -209,7 +205,7 @@
 					aLevels.shift();
 				}
 
-				ch.loadScript(
+				ch.load(
 					findBasePath_() + aLevels.join('/') + '.js',
 					function () {
 						depsCheckLoading_();
@@ -219,7 +215,7 @@
 		} else if (ch.isAlive_(mObject + '.ch')) { //ch key is added to the object to tell that was already loaded
 			depsCheckLoading_();
 		}	else {
-			ch.loadScript(
+			ch.load(
 				findBasePath_() + 'native/' + mObject + '.js',
 				function() { depsCheckLoading_(); }
 			);
@@ -234,7 +230,7 @@
 	 * @param {Function} fnClosure OnLoad closure
 	 * @param {Boolean} bRemoveNode True if loaded node need to be removed after loading
 	 */
-	ch.loadScript = function (sURL, fnClosure) {
+	ch.load = function (sURL, fnClosure) {
 		var	
 			fnError = function () {},
 			fnLoaded = function (oEvent) {
@@ -285,17 +281,33 @@
 
 	/**
 	 * Define a valid Object
-	 * @param {String} sObject
+	 * @param {String} sObject Object to be defined
+	 * @param {Function} fnImplementation Specific module definition
 	 */
-	ch.define = function (sObject) {
+	ch.define = function (sObject, fnImplementation) {
 		var 
 			oCurrent = ch.w,
 			aParts = sObject.split('.'),
 			iPart = 0;
 
+		//Build a valid object for each part
 		for (iPart; iPart < aParts.length; iPart += 1) {
+			//If object does not exists
 			if (!ch.isDefAndNotNull(oCurrent[aParts[iPart]])) {
-				oCurrent[aParts[iPart]] = {};
+				//If this is the last object part we make a function
+				if( iPart == aParts.length - 1 ) {
+					//If a specific implementation is given for that define, we call it
+					//and link the module result with the defined part
+					if( ch.typeOf(fnImplementation) === "function" ) {
+						oCurrent[aParts[iPart]] = fnImplementation.call(ch, {});
+					} else {
+						oCurrent[aParts[iPart]] = function() {};
+					}
+					//Finally check dependency loading because know we have a new object
+					depsCheckLoading_();
+				} else {
+					oCurrent[aParts[iPart]] = {};
+				}
 			}
 
 			oCurrent = oCurrent[aParts[iPart]];
