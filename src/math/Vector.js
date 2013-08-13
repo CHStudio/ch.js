@@ -4,6 +4,8 @@
 // For the full copyright and license information, please view the LICENSE
 // file that was distributed with this source code.
 
+/*jshint multistr: true*/
+
 /**
  * 2D vector representation
  *
@@ -85,7 +87,7 @@
 			return "ch.math.Vector:{\n\
   x: "+this.x()+",\n\
   y: "+this.y()+"\n\
-}"
+}";
 		};
 	});
 }).call(this, ch);

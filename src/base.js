@@ -273,7 +273,8 @@
 		var 
 			oCurrent = ch.w,
 			aParts = sObject.split('.'),
-			iPart = 0;
+			iPart = 0,
+			fnLambda = function() {};
 
 		//Build a valid object for each part
 		for (iPart; iPart < aParts.length; iPart += 1) {
@@ -286,7 +287,7 @@
 					if( ch.typeOf(fnImplementation) === "function" ) {
 						oCurrent[aParts[iPart]] = fnImplementation.call(ch, {});
 					} else {
-						oCurrent[aParts[iPart]] = function() {};
+						oCurrent[aParts[iPart]] = fnLambda;
 					}
 					//Finally check dependency loading because know we have a new object
 					depsCheckLoading_();

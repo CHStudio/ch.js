@@ -14,7 +14,7 @@
 	'use strict';
 	
 	//Do not override or use native object just build an additional library of tools
-	ch.define('ch.native.String', function( module_ ) {
+	ch.define('ch.native.String', function (module_) {
 
 		//Define result as object
 		module_ = function() {};
@@ -57,9 +57,9 @@
 		 */
 		module_.replaceVars = function (sString, oValues, sBefore, sAfter) {
 			var sName,
-				sBefore = sBefore === undefined?"":RegExp.escape(sBefore),
-				sAfter = sAfter === undefined?"":RegExp.escape(sAfter),
 				sResult = sString;
+			sBefore = sBefore === undefined?"":RegExp.escape(sBefore);
+			sAfter = sAfter === undefined?"":RegExp.escape(sAfter);
 
 			for (sName in oValues) {
 				sResult = sResult.replace(
@@ -94,7 +94,7 @@
 			} else {
 				sEnd = "";
 			}
-			sString = sString.replace( new RegExp("^(.{"+ iLength +"}[^\s]*).*"), "$1");
+			sString = sString.replace( new RegExp("^(.{"+ iLength +"}[^\s]*).*$"), "$1");
 			if( bAfter !== true && sString.lastIndexOf(' ') !== -1 ) {
 				sString = sString.substr(0, sString.lastIndexOf(' '));
 			}
@@ -112,7 +112,7 @@
 		 * @return String
 		 */
 		module_.latinize = function (sString) {
-			return sString.replace(/[^A-Za-z0-9\[\] ]/g,function(a){return String.ch.latinMap[a]||a});
+			return sString.replace(/[^A-Za-z0-9\[\] ]/g,function(a){return String.ch.latinMap[a]||a;});
 		};
 		/**
 		 * Check if the given string is a Latin one
@@ -123,6 +123,6 @@
 			return sString === module_.latinize(sString);
 		};
 
-		return module_
+		return module_;
 	});
 }.call(this, ch));

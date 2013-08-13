@@ -15,7 +15,7 @@
 	'use strict';
 
 	//Define a CH namespace inside the native prototype to avoid method collision
-	ch.define('ch.native.Array', function( module_ ) {;
+	ch.define('ch.native.Array', function (module_) {
 
 		module_ = function() {};
 
@@ -25,7 +25,7 @@
 		 * @return Array
 		 */
 		module_.clone = function( aArray ) {
-			var oClone = new Array();
+			var oClone = [];
 			for ( var i = 0; i <  aArray.length; i++)
 				oClone.push(aArray[i]);
 
@@ -39,7 +39,7 @@
 		 * @param {Mixed} mEntity Item to check existence
 		 * @return Number
 		 */
-		module_.in = function( aArray, mEntity ) {
+		module_.isIn = function( aArray, mEntity ) {
 			return aArray.indexOf(mEntity) !== -1;
 		};
 
@@ -78,7 +78,7 @@
 		 * @param {Array} aArray Array to be processed
 		 */
 		module_.shuffle = function(aArray) {
-			var aResult = new Array;
+			var aResult = [];
 			while( aArray.length )
 				aResult.push(aArray.splice(Math.random() * aArray.length, 1));
 			while( aResult.length )

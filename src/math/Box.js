@@ -4,6 +4,8 @@
 // For the full copyright and license information, please view the LICENSE
 // file that was distributed with this source code.
 
+/*jshint multistr: true*/
+
 /**
  * 2D box representation
  * Used for collision management and random point extraction
@@ -32,8 +34,8 @@
 				var yRange = { min: oOrigin.y(), max: oOrigin.y() + iY };
 			
 				//Accessor to private properties
-				this.xRange = function() { return xRange; },
-				this.yRange = function() { return yRange; }
+				this.xRange = function() { return xRange; };
+				this.yRange = function() { return yRange; };
 			};
 			
 			
@@ -50,8 +52,9 @@
 				if(
 					oPoint.x() >= this.xRange().min && oPoint.x() <= this.xRange().max &&
 					oPoint.y() >= this.yRange().min && oPoint.y() <= this.yRange().max
-				)
+				) {
 					bReturn = true;
+				}
 		
 				return bReturn;
 			};

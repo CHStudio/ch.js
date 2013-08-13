@@ -16,7 +16,7 @@
 	'use strict';
 
 	//Define object context
-	ch.define('ch.utils.Browser', function( module_ ) {
+	ch.define('ch.utils.Browser', function (module_) {
 		//Detection parameters
 		//Maybe a newer version can be found at quirckmode
 		var data = {
@@ -167,9 +167,9 @@
 			_version = fnSearchVersion(navigator.userAgent) || fnSearchVersion(navigator.appVersion) || "Unknown";
 			_OS = fnSearchString(data.OS) || "Unknown";
 
-			return new module_;
+			return module_.constructor.call();
 		};
 
-		return module_
+		return module_;
 	});
 }.call(this, ch, navigator, window));

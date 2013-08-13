@@ -14,7 +14,7 @@
 	'use strict';
 
 	//Add some tools functions on objects without overriding base definition
-	ch.define('ch.native.Object', function( module_ ) {
+	ch.define('ch.native.Object', function (module_) {
 
 		//Define result as object
 		module_ = function() {};
@@ -40,7 +40,7 @@
 				}
 
 			return oClone;
-		}
+		};
 
 		/**
 		 * Object merge method

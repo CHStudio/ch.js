@@ -17,7 +17,7 @@
 	'use strict';
 
 	//Define a CH namespace inside the native prototype to avoid method collision
-	ch.define('ch.utils.JSON', function( module_ ) {
+	ch.define('ch.utils.JSON', function (module_) {
 		//Define standard JSON capabilities in the navigator and alias function in ch.utils.JSON
 		if (typeof window.JSON !== 'object') {
 			window.JSON = {};

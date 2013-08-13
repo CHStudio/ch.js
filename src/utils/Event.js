@@ -14,7 +14,7 @@
 	'use strict';
 
 	//Define object context
-	ch.define('ch.utils.Event', function( module_ ) {
+	ch.define('ch.utils.Event', function (module_) {
 		/**
 		 * ch.utils.Event constructor
 		 * @return ch.utils.Event

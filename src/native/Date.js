@@ -12,7 +12,7 @@
  */
 (function(){
 	//Define utils package
-	ch.define('ch.native.Date', function( module_ ) {;
+	ch.define('ch.native.Date', function (module_) {
 
 		/**
 		 * module_ constructor
