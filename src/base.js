@@ -8,7 +8,7 @@
 
 /**
  * @author Stéphane HULARD <s.hulard@chstudio.fr>
- * @copy CH Studio <www.chstudio.fr> 2013
+ * @copy CHStudio <www.chstudio.fr> 2013
  * @package default
  */
 (function (window, document, navigator) {
@@ -33,14 +33,6 @@
 
 	//Define current framework version
 	ch.VERSION = '0.1';
-
-	//Define native object that has been extended inside CH for dependency tests
-	ch.NATIVE = [
-		'Object', 
-		'Number', 
-		'Array', 
-		'String'
-	];
 
 //------------------------------------------------------------------------------
 
@@ -145,11 +137,7 @@
 			//If current item has been loaded, apply the callback
 			if (bLoaded) {
 				if (ch.typeOf(depsQueue[i][1]) === 'function') {
-					//@FIXME Add a timeout before launch code that request dependency, is that the best way?
-					window.setTimeout( depsQueue[i][1], 100);
-					//Check dependency loading when object is loaded
-					//Needed here because of setTimeout
-					window.setTimeout( depsCheckLoading_, 100);
+					depsQueue[i][1].call();
 				}
 				//Destroy current item from the queue to disable double call
 				depsQueue.splice(i, 1);
@@ -199,29 +187,20 @@
 		}
 
 		//If object has already been required just get it
-		if (ch.NATIVE.indexOf(mObject) < 0) {
-			if (ch.isAlive_(mObject)) {
-				depsCheckLoading_();
-			} else {
-				//Else load the given script
-				var aLevels = mObject.split('.');
-				if (aLevels[0] === 'ch') {
-					aLevels.shift();
-				}
-
-				ch.loadScript(
-					findBasePath_() + aLevels.join('/') + '.js',
-					function () {
-						depsCheckLoading_();
-					}
-				);
-			}
-		} else if (ch.isAlive_(mObject + '.ch')) { //ch key is added to the object to tell that was already loaded
+		if (ch.isAlive_(mObject)) {
 			depsCheckLoading_();
-		}	else {
-			ch.loadScript(
-				findBasePath_() + 'native/' + mObject + '.js',
-				function() { depsCheckLoading_(); }
+		} else {
+			//Else load the given script
+			var aLevels = mObject.split('.');
+			if (aLevels[0] === 'ch') {
+				aLevels.shift();
+			}
+
+			ch.load(
+				findBasePath_() + aLevels.join('/') + '.js',
+				function () {
+					depsCheckLoading_();
+				}
 			);
 		}
 	};
@@ -234,7 +213,7 @@
 	 * @param {Function} fnClosure OnLoad closure
 	 * @param {Boolean} bRemoveNode True if loaded node need to be removed after loading
 	 */
-	ch.loadScript = function (sURL, fnClosure) {
+	ch.load = function (sURL, fnClosure) {
 		var	
 			fnError = function () {},
 			fnLoaded = function (oEvent) {
@@ -244,7 +223,9 @@
 					ch.removeListener(oNode, fnLoaded, 'load', 'onreadystatechange');
 					ch.removeListener(oNode, fnError, 'error');
 
-					oNode.parentNode.removeChild(oNode);
+					if( ch.isDefAndNotNull(oNode.parentNode) ) {
+						oNode.parentNode.removeChild(oNode);
+					}
 
 					if (fnClosure) {
 						fnClosure.call();
@@ -285,17 +266,34 @@
 
 	/**
 	 * Define a valid Object
-	 * @param {String} sObject
+	 * @param {String} sObject Object to be defined
+	 * @param {Function} fnImplementation Specific module definition
 	 */
-	ch.define = function (sObject) {
+	ch.define = function (sObject, fnImplementation) {
 		var 
 			oCurrent = ch.w,
 			aParts = sObject.split('.'),
-			iPart = 0;
+			iPart = 0,
+			fnLambda = function() {};
 
+		//Build a valid object for each part
 		for (iPart; iPart < aParts.length; iPart += 1) {
+			//If object does not exists
 			if (!ch.isDefAndNotNull(oCurrent[aParts[iPart]])) {
-				oCurrent[aParts[iPart]] = {};
+				//If this is the last object part we make a function
+				if( iPart == aParts.length - 1 ) {
+					//If a specific implementation is given for that define, we call it
+					//and link the module result with the defined part
+					if( ch.typeOf(fnImplementation) === "function" ) {
+						oCurrent[aParts[iPart]] = fnImplementation.call(ch, {});
+					} else {
+						oCurrent[aParts[iPart]] = fnLambda;
+					}
+					//Finally check dependency loading because know we have a new object
+					depsCheckLoading_();
+				} else {
+					oCurrent[aParts[iPart]] = {};
+				}
 			}
 
 			oCurrent = oCurrent[aParts[iPart]];
