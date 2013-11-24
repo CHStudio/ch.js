@@ -14,10 +14,10 @@
  */
 (function (ch, window) {
 	'use strict';
-	
+
 	//Define object context
 	ch.define('ch.map.google');
-	
+
 	//Require dependency
 	ch.require('ch.utils.Event', function() {
 		/**
@@ -33,15 +33,15 @@
 					this.say('map.google.loaded');
 					delete ch.map.google.Loader[sCallBackName];
 				}.bind(this);
-				ch.loadScript('http://maps.googleapis.com/maps/api/js?sensor=false&callback=ch.map.google.Loader.'+sCallBackName);
+				ch.load('http://maps.googleapis.com/maps/api/js?sensor=false&callback=ch.map.google.Loader.'+sCallBackName);
 			//Else just tell by event Google Map is loaded
 			} else {
 				this.say('map.google.loaded');
 			}
-	
+
 			return this;
 		};
-		
+
 		//Extend Event
 		ch.map.google.Loader.inherits( ch.utils.Event );
 	});
